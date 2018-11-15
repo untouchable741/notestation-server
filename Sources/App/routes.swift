@@ -2,19 +2,22 @@ import Vapor
 
 /// Register your application's routes here.
 public func routes(_ router: Router) throws {
-    // Basic "It works" example
-    router.get { req in
-        return "It works!"
-    }
+    try userRoute(router.grouped("user"))
     
-    // Basic "Hello, world!" example
-    router.get("hello") { req in
-        return "Hello, world!"
-    }
-
-    // Example of configuring a controller
-    let todoController = TodoController()
-    router.get("todos", use: todoController.index)
-    router.post("todos", use: todoController.create)
-    router.delete("todos", Todo.parameter, use: todoController.delete)
+    /// Order matters
+    let authenticationMiddlewares: [Middleware] = [User.tokenAuthMiddleware(), TokenExpiredGuardMiddleware()]
+    let authedRoutes = router.grouped(authenticationMiddlewares)
+    try notesRoute(authedRoutes.grouped("notes"))
 }
+
+public func userRoute(_ router: Router) throws {
+    let userController = UserController()
+    router.post("register", use: userController.register)
+    router.post("login", use: userController.login)
+}
+
+public func notesRoute(_ router: Router) throws {
+    let notesController = NotesController()
+    router.get(use: notesController.list)
+}
+
