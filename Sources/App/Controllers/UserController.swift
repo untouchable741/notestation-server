@@ -51,7 +51,7 @@ class UserController {
                             return Future.map(on: req) { token }
                         } else {
                             let tokenString = try URandom().generateData(count: 32).base32EncodedString()
-                            let token = try Token(token: tokenString, userId: existingUser.requireID(), expiry: Date().addingTimeInterval(60))
+                            let token = try Token(token: tokenString, userId: existingUser.requireID(), expiry: Date().addingTimeInterval(86400))
                             return token.save(on: req)
                         }
                     }
