@@ -25,6 +25,10 @@ struct User: Content, SQLiteModel, Migration {
         var username: String
         var createdAt: Date?
     }
+    
+    var notes: Children<User, Note> {
+        return children(\.userId)
+    }
 }
 
 extension User: TokenAuthenticatable {

@@ -19,5 +19,7 @@ public func userRoute(_ router: Router) throws {
 public func notesRoute(_ router: Router) throws {
     let notesController = NotesController()
     router.get(use: notesController.list)
+    router.post("create", use: notesController.create)
+    router.post("update",Int.parameter, use: notesController.update)
 }
 
