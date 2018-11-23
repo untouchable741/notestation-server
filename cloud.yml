@@ -1,3 +1,16 @@
 type: "vapor"
 swift_version: "4.1.0"
 run_parameters: "serve --port 8080 --hostname 0.0.0.0"
+config:
+    production:
+        VAR1: "production_var_1"
+        VAR2: "production_var_2"
+
+    staging:
+        VAR1: "staging_var_1"
+        VAR2: "staging_var_2"
+
+    all:
+        VAR3: "all_var_3"
+        VAR4: "all_var_4"
+        MY_CONFIG: "MY_CONFIG_VARIABLE"
